@@ -32,7 +32,7 @@ export default function Navbar() {
         className="font-vt text-3xl text-green tracking-widest"
         style={{ textShadow: '0 0 10px #00ff41' }}
       >
-        P<span className="text-amber">K</span>.dev
+        p<span className="text-amber">k</span>.dev
       </div>
 
       {/* Links */}
