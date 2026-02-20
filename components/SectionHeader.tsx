@@ -5,7 +5,7 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ tag, title }: SectionHeaderProps) {
   return (
-    <div className="mb-14 reveal-on-scroll">
+    <div className="mb-5 reveal-on-scroll">
       <div className="font-mono text-xs tracking-[4px] uppercase text-green-dim mb-2">
         <span className="text-green-dim">// </span>
         {tag}

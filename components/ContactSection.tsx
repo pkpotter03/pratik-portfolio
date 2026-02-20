@@ -53,7 +53,7 @@ export default function ContactSection() {
           </p>
           <p className="mb-4">
             My B.Tech in Computer Science from D.K.T.E. Society&apos;s Textile and Engineering
-            Institute wrapped up in June 2025. I thrive on crafting secure, scalable applications and am passionate about continuous learning and growth in the tech world. I'm currently intersted in learining system design, cloud computing, and DevOps practices to complement my full stack development skills. Also, Exploring cybersecurity field to enhance my understanding of secure coding practices and application security. I&apos;m eager to connect with like-minded professionals and explore new opportunities in the tech industry.
+            Institute wrapped up in June 2025. I thrive on crafting secure, scalable applications and am passionate about continuous learning and growth in the tech world. I'm currently intersted in learining system design, cloud computing, and DevOps practices to complement my full stack development skills.
           </p>
           <p className="text-green mb-6">
             Available for:{' '}
