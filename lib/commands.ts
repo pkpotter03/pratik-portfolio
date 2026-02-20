@@ -14,6 +14,8 @@ export const COMMAND_LIST: CommandName[] = [
 
 type CommandResult = TermLine[] | { type: 'clear' } | { type: 'matrix' }
 
+let jokeIndex = 0
+
 export const COMMANDS: Record<string, () => CommandResult> = {
   help: () => [
     { cls: 'info', txt: '╔══════════════════════════════════════╗' },
@@ -99,10 +101,9 @@ export const COMMANDS: Record<string, () => CommandResult> = {
   ],
 
   jokes: () => {
-    let jokeIndex = 0
     const joke = DEV_JOKES[jokeIndex]
     jokeIndex = (jokeIndex + 1) % DEV_JOKES.length
-    
+
     return [
       { cls: 'info', txt: '> LOADING HUMOR.DLL...' },
       { cls: 'response', txt: joke },
