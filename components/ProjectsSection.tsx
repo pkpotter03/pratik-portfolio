@@ -6,7 +6,7 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative z-10 min-h-screen pt-24 pb-16 px-10 max-w-[1200px] mx-auto"
+      className="relative z-10 min-h-screen pt-24 pb-16 px-5 md:px-10 max-w-[1200px] mx-auto"
     >
       <SectionHeader tag="builds" title="PROJECTS" />
 

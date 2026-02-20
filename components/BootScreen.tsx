@@ -40,11 +40,11 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
 
   return (
     <div
-      className={`fixed inset-0 bg-black z-[9999] flex flex-col justify-center items-start px-16 py-12 transition-opacity duration-700 ${
+      className={`fixed inset-0 bg-black z-[9999] flex flex-col justify-center items-start px-5 sm:px-16 py-12 transition-opacity duration-700 ${
         hiding ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      <div className="font-vt text-4xl text-green mb-6" style={{ textShadow: '0 0 20px #00ff41' }}>
+      <div className="font-vt text-2xl sm:text-4xl text-green mb-6" style={{ textShadow: '0 0 20px #00ff41' }}>
         PRATIK.SYS v2.0 — INITIALIZING
       </div>
 
@@ -52,7 +52,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
         {BOOT_LINES.map((line, i) => (
           <div
             key={i}
-            className={`font-mono text-sm leading-relaxed whitespace-nowrap transition-opacity duration-150 ${
+            className={`font-mono text-xs sm:text-sm leading-relaxed whitespace-normal sm:whitespace-nowrap transition-opacity duration-150 ${
               lineColor[line.type]
             } ${visible[i] ? 'opacity-100' : 'opacity-0'}`}
           >

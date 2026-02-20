@@ -7,7 +7,7 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative z-10 min-h-screen pt-24 pb-16 px-10 max-w-[1200px] mx-auto"
+      className="relative z-10 min-h-screen pt-24 pb-16 px-5 md:px-10 max-w-[1200px] mx-auto"
     >
       <SectionHeader tag="capabilities" title="SKILL MATRIX" />
 
@@ -15,8 +15,8 @@ export default function SkillsSection() {
         <TerminalWindow title="htop — skill_monitor — 1 process" statusText="CPU OK | MEM OK">
           {/* Table header */}
           <div
-            className="grid gap-4 font-mono text-xs text-green-dim mb-3 pb-2 border-b border-green-dark"
-            style={{ gridTemplateColumns: '150px 1fr 60px' }}
+            className="grid gap-2 md:gap-4 font-mono text-xs text-green-dim mb-3 pb-2 border-b border-green-dark"
+            style={{ gridTemplateColumns: 'minmax(80px, 130px) 1fr 44px' }}
           >
             <span>TECHNOLOGY</span>
             <span>PROFICIENCY</span>

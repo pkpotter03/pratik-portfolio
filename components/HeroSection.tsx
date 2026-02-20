@@ -23,7 +23,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative z-10 min-h-screen flex flex-col justify-center pt-28 pb-16 px-10 max-w-[1200px] mx-auto"
+      className="relative z-10 min-h-screen flex flex-col justify-center pt-28 pb-16 px-5 md:px-10 max-w-[1200px] mx-auto"
     >
       {/* Prompt line */}
       <div className="font-mono text-sm text-green-dim mb-2 tracking-wide">
@@ -75,7 +75,7 @@ export default function HeroSection() {
       </p>
 
       {/* Stats */}
-      <div className="flex gap-10 mb-10 flex-wrap reveal-on-scroll">
+      <div className="flex gap-4 md:gap-10 mb-10 flex-wrap reveal-on-scroll">
         {HERO_STATS.map((stat, i) => (
           <div
             key={i}

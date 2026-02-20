@@ -5,7 +5,7 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative z-10 min-h-screen pt-24 pb-16 px-10 max-w-[1200px] mx-auto"
+      className="relative z-10 min-h-screen pt-24 pb-16 px-5 md:px-10 max-w-[1200px] mx-auto"
     >
       <SectionHeader tag="career" title="EXPERIENCE" />
 

@@ -174,9 +174,12 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
       </div>
 
       {/* Input row */}
-      <div className="flex items-center gap-2 pt-3 border-t border-green-dark">
-        <span className="font-mono text-sm text-green whitespace-nowrap">
+      <div className="flex items-center gap-2 pt-3 border-t border-green-dark overflow-hidden">
+        <span className="font-mono text-sm text-green whitespace-nowrap hidden sm:inline">
           visitor@pratik:~$&nbsp;
+        </span>
+        <span className="font-mono text-sm text-green whitespace-nowrap sm:hidden">
+          $&nbsp;
         </span>
         <input
           ref={inputRef}

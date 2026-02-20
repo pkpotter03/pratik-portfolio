@@ -30,8 +30,8 @@ export default function SkillBar({ name, pct }: SkillBarProps) {
   return (
     <div
       ref={rowRef}
-      className="grid gap-4 items-center py-1 hover:bg-green/5 transition-colors duration-200"
-      style={{ gridTemplateColumns: '150px 1fr 60px' }}
+      className="grid gap-2 md:gap-4 items-center py-1 hover:bg-green/5 transition-colors duration-200"
+      style={{ gridTemplateColumns: 'minmax(80px, 130px) 1fr 44px' }}
     >
       <span className="font-mono text-sm text-green truncate">{name}</span>
 

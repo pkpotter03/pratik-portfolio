@@ -25,14 +25,14 @@ export default function TerminalWindow({
           <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-        <span className="text-green-dim text-[0.75rem]">{title}</span>
+        <span className="text-green-dim text-[0.7rem] truncate max-w-[120px] sm:max-w-none">{title}</span>
         {statusText && (
           <span className="text-green-dim text-[0.7rem]">{statusText}</span>
         )}
       </div>
 
       {/* Body */}
-      <div className="p-6">{children}</div>
+      <div className="p-3 md:p-6">{children}</div>
     </div>
   )
 }

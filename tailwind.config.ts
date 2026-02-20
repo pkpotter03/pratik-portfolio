@@ -14,7 +14,7 @@ const config: Config = {
           dim: '#00a82a',
           dark: '#003d0d',
         },
-        black: '#000900',
+        black: '#000000',
         amber: '#ffb000',
         'hacker-red': '#ff2244',
         cyan: '#00ffff',

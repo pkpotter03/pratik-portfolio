@@ -17,7 +17,7 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer className="relative z-10 flex flex-wrap justify-between items-center gap-4 px-10 py-6 border-t border-green-dark font-mono text-[0.75rem] text-green-dim">
+    <footer className="relative z-10 flex flex-col sm:flex-row flex-wrap justify-between items-center gap-3 px-5 md:px-10 py-6 border-t border-green-dark font-mono text-[0.75rem] text-green-dim text-center sm:text-left">
       <div>
         <span className="text-green">PRATIK KUMBHAR</span> — Full Stack Developer
       </div>

@@ -5,7 +5,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative z-10 min-h-screen pt-24 pb-16 px-10 max-w-[1200px] mx-auto"
+      className="relative z-10 min-h-screen pt-24 pb-16 px-5 md:px-10 max-w-[1200px] mx-auto"
     >
       <SectionHeader tag="reach out" title="CONTACT" />
 
@@ -45,7 +45,7 @@ export default function ContactSection() {
 
         {/* Right: bio */}
         <div
-          className="reveal-on-scroll font-mono text-sm text-green-dim leading-8 border-l-2 border-green-dark pl-6"
+          className="reveal-on-scroll font-mono text-sm text-green-dim leading-8 border-t-2 md:border-t-0 md:border-l-2 border-green-dark pt-6 md:pt-0 md:pl-6"
         >
           <p className="mb-4">
             I&apos;m a Full Stack Developer currently interning at Rivedix Technology Solutions,
