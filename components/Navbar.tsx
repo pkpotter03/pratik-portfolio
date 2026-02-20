@@ -29,7 +29,7 @@ export default function Navbar() {
     <>
       <nav
         className="fixed top-0 left-0 right-0 z-[1000] flex justify-between items-center px-5 md:px-10 py-4 border-b border-green-dark"
-        style={{ background: 'rgba(0,9,0,0.92)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)' }}
       >
         {/* Logo */}
         <div
