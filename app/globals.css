@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Fonts ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;700;900&display=swap');
+
+/* ─── CSS Custom Properties ───────────────────────────────────────────────── */
+:root {
+  --green:      #00ff41;
+  --green-dim:  #00a82a;
+  --green-dark: #003d0d;
+  --black:      #000900;
+  --amber:      #ffb000;
+  --red:        #ff2244;
+  --cyan:       #00ffff;
+}
+
+/* ─── Base reset ──────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── Scanlines overlay ───────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* ─── Noise overlay ───────────────────────────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.015;
+  pointer-events: none;
+  z-index: 9002;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--green-dark); }
+
+/* ─── Keyframes not already in tailwind.config ────────────────────────────── */
+@keyframes sparkFloatUp {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-60px); }
+}
+
+@keyframes glitchShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-3px) skewX(2deg); }
+  40% { transform: translateX(3px) skewX(-2deg); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+/* ─── Reveal animations ───────────────────────────────────────────────────── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-on-scroll.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Tailwind animation helpers ─────────────────────────────────────────── */
+.animate-blink-slow {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-glitch-name {
+  animation: glitchName 5s infinite;
+}
+
+@keyframes glitchName {
+  0%, 90%, 100% { opacity: 0; }
+  92% { opacity: 0.7; transform: translateX(-4px); }
+  94% { opacity: 0; transform: translateX(4px); }
+  96% { opacity: 0.5; transform: translateX(-2px); }
+  98% { opacity: 0; }
+}
+
+.animate-typing-dot {
+  animation: typingDot 1s infinite;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+  30%           { opacity: 1;   transform: scale(1.2); }
+}
+
+/* ─── Hero buttons ────────────────────────────────────────────────────────── */
+.hero-btn-primary {
+  @apply relative overflow-hidden px-7 py-3 font-mono text-[0.85rem] tracking-widest uppercase
+         bg-green text-black no-underline transition-all duration-200;
+}
+.hero-btn-primary::before {
+  content: '';
+  @apply absolute top-0 -left-full w-full h-full;
+  background: rgba(255,255,255,0.2);
+  transform: skewX(-20deg);
+  transition: left 0.3s;
+}
+.hero-btn-primary:hover::before { left: 100%; }
+.hero-btn-primary:hover { box-shadow: 0 0 20px var(--green); }
+
+.hero-btn-secondary {
+  @apply relative overflow-hidden px-7 py-3 font-mono text-[0.85rem] tracking-widest uppercase
+         bg-transparent text-green border border-green no-underline transition-all duration-200;
+}
+.hero-btn-secondary:hover {
+  background: var(--green);
+  color: var(--black);
+  box-shadow: 0 0 20px var(--green);
+}
+
+/* ─── Scan line ───────────────────────────────────────────────────────────── */
+.scan-line-anim {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 65, 0.15);
+  z-index: 9001;
+  pointer-events: none;
+  animation: scandown 8s linear infinite;
+}
+
+@keyframes scandown {
+  from { top: -5%; }
+  to   { top: 105%; }
+}
