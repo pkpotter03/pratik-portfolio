@@ -99,7 +99,10 @@ export const COMMANDS: Record<string, () => CommandResult> = {
   ],
 
   jokes: () => {
-    const joke = DEV_JOKES[Math.floor(Math.random() * DEV_JOKES.length)]
+    let jokeIndex = 0
+    const joke = DEV_JOKES[jokeIndex]
+    jokeIndex = (jokeIndex + 1) % DEV_JOKES.length
+    
     return [
       { cls: 'info', txt: '> LOADING HUMOR.DLL...' },
       { cls: 'response', txt: joke },
