@@ -189,3 +189,54 @@ export const DEV_JOKES = [
 ]
 
 export const SPARK_CHARS = ['0', '1', '>', '<', '/', '{', '}', '#', '@', '!', '*']
+
+// Fake "stolen" data lines that flood the screen
+export const STOLEN_DATA = [
+  'ENUMERATING NETWORK INTERFACES...',
+  'eth0: 192.168.1.42  CONNECTED',
+  'wlan0: 10.0.0.7     CONNECTED',
+  'lo: 127.0.0.1       LOOPBACK',
+  'SCANNING OPEN PORTS...',
+  'PORT 22   SSH     OPEN',
+  'PORT 80   HTTP    OPEN',
+  'PORT 443  HTTPS   OPEN',
+  'PORT 3306 MYSQL   OPEN ← VULNERABLE',
+  'DUMPING BROWSER COOKIES...',
+  'google.com       session_id=a7f3d...  ✓ CAPTURED',
+  'github.com       user_token=gh_p...   ✓ CAPTURED',
+  'linkedin.com     li_at=AQED...        ✓ CAPTURED',
+  'READING CLIPBOARD CONTENTS...',
+  'CLIPBOARD: "password123" ← NICE TRY',
+  'SCANNING LOCAL STORAGE...',
+  'FOUND 47 KEYS IN localStorage',
+  'EXFILTRATING TO C2 SERVER...',
+  'CONNECTING TO 185.220.101.47:4444...',
+  'TUNNEL ESTABLISHED ✓',
+  'UPLOADING KEYLOG DATA... [████████░░] 80%',
+  'SENDING SCREENSHOT... [██████████] 100% ✓',
+  'ESCALATING PRIVILEGES...',
+  'sudo: PERMISSION GRANTED (obviously, you typed it)',
+  'ROOT ACCESS OBTAINED ✓',
+  'INSTALLING BACKDOOR...',
+  'BACKDOOR INSTALLED AT /tmp/.hidden_totally_not_malware',
+  'ADDING TO CRONTAB...',
+  '@reboot /tmp/.hidden_totally_not_malware &',
+  'MINING CRYPTO IN BACKGROUND... (just kidding)',
+  'SELF-DESTRUCT SEQUENCE INITIATED...',
+  '10... 9... 8... 7...',
+]
+
+export const REVEAL_LINES = [
+  '> jk lol. you\'re fine. 😄',
+  '',
+  '> but you really just typed "sudo" on',
+  '> a stranger\'s portfolio website.',
+  '',
+  '> that\'s either very brave or very trusting.',
+  '> Pratik respects both.',
+  '',
+  '> you clearly know your unix commands.',
+  '> he\'d love to work with you.',
+  '',
+  '> pratikkumbhar2003@gmail.com',
+]

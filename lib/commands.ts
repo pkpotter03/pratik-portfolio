@@ -4,17 +4,16 @@ import { DEV_JOKES } from './data'
 export type CommandName =
   | 'help' | 'about' | 'skills' | 'experience' | 'projects'
   | 'contact' | 'education' | 'goals' | 'jokes' | 'matrix'
-  | 'secret' | 'hire me' | 'clear'
+  | 'secret' | 'hire me' | 'clear' | 'sudo'
 
 export const COMMAND_LIST: CommandName[] = [
   'help', 'about', 'skills', 'experience', 'projects',
   'contact', 'education', 'goals', 'jokes', 'matrix',
   'secret', 'hire me', 'clear',
+  // 'sudo' intentionally NOT in tab-complete — must be discovered
 ]
 
-type CommandResult = TermLine[] | { type: 'clear' } | { type: 'matrix' }
-
-let jokeIndex = 0
+type CommandResult = TermLine[] | { type: 'clear' } | { type: 'matrix' } | { type: 'sudo' }
 
 export const COMMANDS: Record<string, () => CommandResult> = {
   help: () => [
@@ -101,9 +100,7 @@ export const COMMANDS: Record<string, () => CommandResult> = {
   ],
 
   jokes: () => {
-    const joke = DEV_JOKES[jokeIndex]
-    jokeIndex = (jokeIndex + 1) % DEV_JOKES.length
-
+    const joke = DEV_JOKES[Math.floor(Math.random() * DEV_JOKES.length)]
     return [
       { cls: 'info', txt: '> LOADING HUMOR.DLL...' },
       { cls: 'response', txt: joke },
@@ -114,13 +111,13 @@ export const COMMANDS: Record<string, () => CommandResult> = {
 
   secret: () => [
     { cls: 'warn', txt: '> ACCESSING CLASSIFIED FILES...' },
-    { cls: 'response', txt: '01001000 01100101 01111001 00100001' },
+    { cls: 'response', txt: '01110011 01110101 01100100 01101111' },
     { cls: 'response', txt: '' },
-    { cls: 'info', txt: 'If you decode the binary above, you found the easter egg 🥚' },
-    { cls: 'response', txt: 'Hint: ASCII binary → "Hey!"' },
-    { cls: 'response', txt: 'You must be a developer too. Pratik would love to meet you.' },
-    { cls: 'response', txt: 'Email: pratikkumbhar2003@gmail.com' },
+    { cls: 'info', txt: 'Decode the binary. It\'s a command. Run it. I dare you. 😈' },
+    { cls: 'response', txt: 'Hint: ASCII binary → 4-letter unix command' },
   ],
+
+  sudo: () => ({ type: 'sudo' }),
 
   'hire me': () => [
     { cls: 'info', txt: '> INITIATING RECRUITMENT PROTOCOL...' },

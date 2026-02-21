@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback, KeyboardEvent } from 'react'
 import TerminalWindow from './TerminalWindow'
 import TypingIndicator from './TypingIndicator'
+import HackOverlay from './HackOverlay'
 import { COMMANDS, COMMAND_LIST } from '@/lib/commands'
 import type { TermLine, TermLineType } from '@/types'
 
@@ -39,6 +40,7 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
   const [input, setInput] = useState('')
   const [history, setHistory] = useState<string[]>([])
   const [histIdx, setHistIdx] = useState(-1)
+  const [hackMode, setHackMode] = useState(false)
   const outputRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -86,9 +88,13 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
         const handler = COMMANDS[clean]
         if (handler) {
           const result = handler()
+
           if ('type' in result && result.type === 'matrix') {
             onToggleMatrix?.()
             addLines([{ id: nextId(), type: 'info', text: '> Matrix rain toggled.' }])
+          } else if ('type' in result && result.type === 'sudo') {
+            // 🔥 TRIGGER THE HACK OVERLAY
+            setHackMode(true)
           } else if (Array.isArray(result)) {
             const outputLines: OutputLine[] = (result as TermLine[]).map((l) => ({
               id: nextId(),
@@ -112,6 +118,18 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
     },
     [addLines, onToggleMatrix]
   )
+
+  const handleDismissHack = useCallback(() => {
+    setHackMode(false)
+    // Add a cheeky post-hack message to the terminal
+    setTimeout(() => {
+      addLines([
+        { id: nextId(), type: 'warn', txt: '> sudo session terminated.' } as unknown as OutputLine,
+        { id: nextId(), type: 'response', txt: '> relax, your machine is fine 😄' } as unknown as OutputLine,
+        { id: nextId(), type: 'info', txt: '> but now you know Pratik has range.' } as unknown as OutputLine,
+      ])
+    }, 300)
+  }, [addLines])
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -141,64 +159,72 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
       const match = COMMAND_LIST.find((k) => k.startsWith(typed))
       if (match) setInput(match)
     }
+    // Escape key dismisses hack overlay
+    if (e.key === 'Escape' && hackMode) {
+      handleDismissHack()
+    }
   }
 
   return (
-    <TerminalWindow title="visitor@pratik-portfolio:~$" statusText="interactive shell v1.0">
-      {/* Output area */}
-      <div
-        ref={outputRef}
-        className="h-[350px] overflow-y-auto font-mono text-sm leading-7 mb-0 scroll-smooth"
-        style={{ scrollbarWidth: 'thin', scrollbarColor: '#003d0d #000d00' }}
-        onClick={() => inputRef.current?.focus()}
-      >
-        {lines.map((line) =>
-          line.type === 'typing' ? (
-            <div key={line.id}>
-              <TypingIndicator />
-            </div>
-          ) : (
-            <div
-              key={line.id}
-              className={`${lineClass[line.type] ?? 'text-green'} ${
-                line.type === 'user' ? 'before:content-["visitor@portfolio:~$_"] before:text-green' : ''
-              }`}
-            >
-              {line.type === 'user' && (
-                <span className="text-green mr-1">visitor@portfolio:~$</span>
-              )}{' '}
-              {line.text}
-            </div>
-          )
-        )}
-      </div>
+    <>
+      {/* 🔥 Hack overlay — mounts over entire viewport */}
+      {hackMode && <HackOverlay onDismiss={handleDismissHack} />}
 
-      {/* Input row */}
-      <div className="flex items-center gap-2 pt-3 border-t border-green-dark overflow-hidden">
-        <span className="font-mono text-sm text-green whitespace-nowrap hidden sm:inline">
-          visitor@pratik:~$&nbsp;
-        </span>
-        <span className="font-mono text-sm text-green whitespace-nowrap sm:hidden">
-          $&nbsp;
-        </span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={onKeyDown}
-          placeholder="type a command..."
-          autoComplete="off"
-          spellCheck={false}
-          className="flex-1 bg-transparent border-none outline-none font-mono text-sm text-amber placeholder-green-dim/40 caret-green"
-          style={{ cursor: 'none' }}
-        />
-      </div>
+      <TerminalWindow title="visitor@pratik-portfolio:~$" statusText="interactive shell v1.0">
+        {/* Output area */}
+        <div
+          ref={outputRef}
+          className="h-[350px] overflow-y-auto font-mono text-sm leading-7 mb-0 scroll-smooth"
+          style={{ scrollbarWidth: 'thin', scrollbarColor: '#003d0d #000d00' }}
+          onClick={() => inputRef.current?.focus()}
+        >
+          {lines.map((line) =>
+            line.type === 'typing' ? (
+              <div key={line.id}>
+                <TypingIndicator />
+              </div>
+            ) : (
+              <div
+                key={line.id}
+                className={`${lineClass[line.type] ?? 'text-green'}`}
+              >
+                {line.type === 'user' && (
+                  <span className="text-green mr-1">visitor@portfolio:~$</span>
+                )}{' '}
+                {line.text}
+              </div>
+            )
+          )}
+        </div>
 
-      {/* Hint */}
-      <div className="font-mono text-[0.72rem] text-green-dim tracking-wide pt-2">
-        try: help | about | skills | projects | contact | experience | jokes | secret
-      </div>
-    </TerminalWindow>
+        {/* Input row */}
+        <div className="flex items-center gap-2 pt-3 border-t border-green-dark overflow-hidden">
+          <span className="font-mono text-sm text-green whitespace-nowrap hidden sm:inline">
+            visitor@pratik:~$&nbsp;
+          </span>
+          <span className="font-mono text-sm text-green whitespace-nowrap sm:hidden">
+            $&nbsp;
+          </span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder="type a command..."
+            autoComplete="off"
+            spellCheck={false}
+            className="flex-1 bg-transparent border-none outline-none font-mono text-sm text-amber placeholder-green-dim/40 caret-green"
+            style={{ cursor: 'none' }}
+          />
+        </div>
+
+        {/* Hint */}
+        <div className="font-mono text-[0.72rem] text-green-dim tracking-wide pt-2">
+          try: help | about | skills | projects | contact | experience | jokes | secret
+        </div>
+      </TerminalWindow>
+    </>
   )
 }
+
