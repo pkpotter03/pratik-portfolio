@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function useCustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
@@ -8,8 +8,19 @@ export function useCustomCursor() {
   const mousePos = useRef({ x: 0, y: 0 })
   const cursorPos = useRef({ x: 0, y: 0 })
   const rafRef = useRef<number>(0)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
+    // Detect touch devices
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    setIsTouchDevice(isTouch)
+
+    if (isTouch) {
+      // Restore native cursor on touch devices
+      document.body.style.cursor = 'auto'
+      return
+    }
+
     const onMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY }
       if (dotRef.current) {
@@ -45,15 +56,36 @@ export function useCustomCursor() {
       cursorRef.current.style.background = 'transparent'
     }
 
-    const interactives = document.querySelectorAll('a, button, input, [data-cursor-hover]')
-    interactives.forEach(el => {
-      el.addEventListener('mouseenter', expand)
-      el.addEventListener('mouseleave', shrink)
+    const attachListeners = () => {
+      const interactives = document.querySelectorAll('a, button, input, [data-cursor-hover]')
+      interactives.forEach(el => {
+        el.addEventListener('mouseenter', expand)
+        el.addEventListener('mouseleave', shrink)
+      })
+      return interactives
+    }
+
+    let interactives = attachListeners()
+
+    // Re-attach on DOM changes for dynamically added elements (debounced)
+    let debounceTimer: ReturnType<typeof setTimeout>
+    const observer = new MutationObserver(() => {
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        interactives.forEach(el => {
+          el.removeEventListener('mouseenter', expand)
+          el.removeEventListener('mouseleave', shrink)
+        })
+        interactives = attachListeners()
+      }, 200)
     })
+    observer.observe(document.body, { childList: true, subtree: true })
 
     return () => {
+      clearTimeout(debounceTimer)
       document.removeEventListener('mousemove', onMouseMove)
       cancelAnimationFrame(rafRef.current)
+      observer.disconnect()
       interactives.forEach(el => {
         el.removeEventListener('mouseenter', expand)
         el.removeEventListener('mouseleave', shrink)
@@ -61,5 +93,5 @@ export function useCustomCursor() {
     }
   }, [])
 
-  return { cursorRef, dotRef }
+  return { cursorRef, dotRef, isTouchDevice }
 }

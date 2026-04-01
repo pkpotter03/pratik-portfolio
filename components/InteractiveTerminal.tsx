@@ -113,7 +113,7 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
         // Trailing space
         setTimeout(() => {
           setLines((prev) => [...prev, { id: nextId(), type: 'space', text: ' ' }])
-        }, (Array.isArray(COMMANDS[clean]?.()) ? (COMMANDS[clean]() as TermLine[]).length : 2) * 80 + 100)
+        }, 400)
       }, 600)
     },
     [addLines, onToggleMatrix]
@@ -124,9 +124,9 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
     // Add a cheeky post-hack message to the terminal
     setTimeout(() => {
       addLines([
-        { id: nextId(), type: 'warn', txt: '> sudo session terminated.' } as unknown as OutputLine,
-        { id: nextId(), type: 'response', txt: '> relax, your machine is fine 😄' } as unknown as OutputLine,
-        { id: nextId(), type: 'info', txt: '> but now you know Pratik has range.' } as unknown as OutputLine,
+        { id: nextId(), type: 'warn', text: '> sudo session terminated.' },
+        { id: nextId(), type: 'response', text: '> relax, your machine is fine 😄' },
+        { id: nextId(), type: 'info', text: '> but now you know Pratik has range.' },
       ])
     }, 300)
   }, [addLines])
@@ -170,7 +170,7 @@ export default function InteractiveTerminal({ onToggleMatrix }: InteractiveTermi
       {/* 🔥 Hack overlay — mounts over entire viewport */}
       {hackMode && <HackOverlay onDismiss={handleDismissHack} />}
 
-      <TerminalWindow title="visitor@pratik-portfolio:~$" statusText="interactive shell v1.0">
+      <TerminalWindow title="visitor@pratik-portfolio:~$" statusText="interactive shell v3.0">
         {/* Output area */}
         <div
           ref={outputRef}

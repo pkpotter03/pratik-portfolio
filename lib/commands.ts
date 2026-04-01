@@ -37,7 +37,7 @@ export const COMMANDS: Record<string, () => CommandResult> = {
   about: () => [
     { cls: 'info', txt: '> LOADING PROFILE...' },
     { cls: 'response', txt: 'NAME    : Pratik Kumbhar' },
-    { cls: 'response', txt: 'ROLE    : Full Stack Developer (Intern @ Rivedix)' },
+    { cls: 'response', txt: 'ROLE    : Software Development Engineer @ Rivedix' },
     { cls: 'response', txt: 'ORIGIN  : Ichalkaranji, Maharashtra, India' },
     { cls: 'response', txt: 'STACK   : React + NestJS + PostgreSQL + AWS' },
     { cls: 'response', txt: 'PASSION : Building things that matter.' },
@@ -57,10 +57,14 @@ export const COMMANDS: Record<string, () => CommandResult> = {
 
   experience: () => [
     { cls: 'info', txt: '> LOADING WORK HISTORY...' },
-    { cls: 'response', txt: '[2025-Oct → Now]  Rivedix Technology Solutions' },
-    { cls: 'response', txt: '  Role: App & Product Development Intern' },
+    { cls: 'response', txt: '[2026-Apr → Now]  Rivedix Technology Solutions' },
+    { cls: 'response', txt: '  Role: Software Development Engineer' },
     { cls: 'response', txt: '  Stack: Next.js, NestJS, Prisma, PostgreSQL, AWS' },
-    { cls: 'response', txt: '  Achievements: REST APIs, RBAC, CI/CD, Cloud deploys' },
+    { cls: 'response', txt: '  Promoted from intern → SDE. Owning full-stack features.' },
+    { cls: 'response', txt: '' },
+    { cls: 'response', txt: '[2025-Oct → 2026-Mar]  Rivedix Technology Solutions' },
+    { cls: 'response', txt: '  Role: App & Product Development Intern' },
+    { cls: 'response', txt: '  Built REST APIs, RBAC, CI/CD pipelines, Cloud deploys' },
   ],
 
   projects: () => [

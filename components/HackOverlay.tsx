@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import { STOLEN_DATA, REVEAL_LINES } from '@/lib/data'
 
 interface HackOverlayProps {
@@ -91,6 +91,8 @@ export default function HackOverlay({ onDismiss }: HackOverlayProps) {
     const t = setTimeout(() => setCountdown((c) => (c ?? 1) - 1), 1000)
     return () => clearTimeout(t)
   }, [countdown, onDismiss])
+
+  const pid = useMemo(() => Math.floor(Math.random() * 9000 + 1000), [])
 
   const bg = phase === 'redscreen' && glitchActive
     ? 'rgba(80,0,0,0.98)'
@@ -217,8 +219,8 @@ export default function HackOverlay({ onDismiss }: HackOverlayProps) {
         <span style={{ animation: 'hackBlink 1s step-end infinite' }}>
           ● ROOT ACCESS ACTIVE
         </span>
-        <span>PID: {Math.floor(Math.random() * 9000 + 1000)}</span>
-        <span>PRATIK.SYS v2.0</span>
+        <span>PID: {pid}</span>
+        <span>PRATIK.SYS v3.0</span>
       </div>
 
       {/* Inline keyframe styles */}

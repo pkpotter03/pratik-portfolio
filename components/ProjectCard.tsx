@@ -1,25 +1,118 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { Project } from '@/types'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 interface ProjectCardProps {
   project: Project
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const [hovered, setHovered] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const card = cardRef.current
+    if (!card) return
+
+    // Skip 3D tilt on touch devices
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+
+    // Scroll-triggered entrance
+    gsap.set(card, { opacity: 0, y: 40, rotateX: isTouch ? 0 : -5 })
+
+    ScrollTrigger.create({
+      trigger: card,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(card, {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+        })
+      },
+    })
+
+    if (isTouch) return // No mouse-tracking on touch devices
+
+    // 3D mouse-tracking tilt
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect()
+      const x = (e.clientX - rect.left) / rect.width - 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5
+
+      gsap.to(card, {
+        rotateY: x * 8,
+        rotateX: -y * 8,
+        duration: 0.3,
+        ease: 'power2.out',
+      })
+
+      // Move inner glow to follow mouse
+      const glow = card.querySelector('.card-glow') as HTMLElement
+      if (glow) {
+        gsap.to(glow, {
+          x: x * 100,
+          y: y * 100,
+          opacity: 1,
+          duration: 0.3,
+        })
+      }
+    }
+
+    const handleMouseLeave = () => {
+      gsap.to(card, {
+        rotateY: 0,
+        rotateX: 0,
+        y: 0,
+        borderColor: '#003d0d',
+        duration: 0.5,
+        ease: 'power2.out',
+      })
+      const glow = card.querySelector('.card-glow') as HTMLElement
+      if (glow) {
+        gsap.to(glow, { opacity: 0, duration: 0.4 })
+      }
+    }
+
+    const handleMouseEnter = () => {
+      gsap.to(card, {
+        y: -6,
+        borderColor: '#00ff41',
+        duration: 0.3,
+        ease: 'power2.out',
+      })
+    }
+
+    card.addEventListener('mousemove', handleMouseMove)
+    card.addEventListener('mouseleave', handleMouseLeave)
+    card.addEventListener('mouseenter', handleMouseEnter)
+
+    return () => {
+      card.removeEventListener('mousemove', handleMouseMove)
+      card.removeEventListener('mouseleave', handleMouseLeave)
+      card.removeEventListener('mouseenter', handleMouseEnter)
+    }
+  }, [])
 
   return (
     <div
-      className="relative overflow-hidden border border-green-dark p-7 transition-all duration-300 reveal-on-scroll"
+      ref={cardRef}
+      className="relative overflow-hidden border border-green-dark p-7"
       style={{
         background: 'rgba(0,20,0,0.3)',
-        borderColor: hovered ? '#00ff41' : undefined,
-        transform: hovered ? 'translateY(-4px)' : undefined,
+        perspective: '800px',
+        transformStyle: 'preserve-3d',
+        willChange: 'transform',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       data-cursor-hover
     >
       {/* Subtle gradient overlay */}
@@ -28,15 +121,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         style={{ background: 'linear-gradient(135deg, rgba(0,255,65,0.03), transparent)' }}
       />
 
-      {/* Hover radial glow */}
+      {/* Mouse-tracking radial glow */}
       <div
-        className="absolute pointer-events-none transition-all duration-500"
+        className="card-glow absolute pointer-events-none opacity-0"
         style={{
-          width: '300%',
-          height: '300%',
-          background: 'radial-gradient(circle, rgba(0,255,65,0.06) 0%, transparent 60%)',
-          bottom: hovered ? '-50%' : '-100%',
-          left: hovered ? '-50%' : '-100%',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, rgba(0,255,65,0.08) 0%, transparent 65%)',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
         }}
       />
 

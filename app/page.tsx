@@ -6,13 +6,13 @@ import CustomCursor from '@/components/CustomCursor'
 import MatrixBackground from '@/components/MatrixBackground'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
+import ScrollytellSection from '@/components/ScrollytellSection'
 import ExperienceSection from '@/components/ExperienceSection'
-import SkillsSection from '@/components/SkillsSection'
+import SkillsGrid from '@/components/SkillsGrid'
 import ProjectsSection from '@/components/ProjectsSection'
 import TerminalSection from '@/components/TerminalSection'
 import ContactSection from '@/components/ContactSection'
 import Footer from '@/components/Footer'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { useClickSparks } from '@/hooks/useClickSparks'
 
 export default function Home() {
@@ -23,8 +23,7 @@ export default function Home() {
     setMatrixOpacity((prev) => (prev > 0.05 ? 0.02 : 0.18))
   }, [])
 
-  // Hooks that need DOM ready
-  useScrollReveal(booted)
+  // Click sparks effect
   useClickSparks(booted)
 
   return (
@@ -50,8 +49,9 @@ export default function Home() {
 
         <main>
           <HeroSection />
+          <ScrollytellSection />
           <ExperienceSection />
-          <SkillsSection />
+          <SkillsGrid />
           <ProjectsSection />
           <TerminalSection onToggleMatrix={toggleMatrix} />
           <ContactSection />

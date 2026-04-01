@@ -22,7 +22,7 @@ export default function Footer() {
         <span className="text-green">PRATIK KUMBHAR</span> — Full Stack Developer
       </div>
       <div>
-        Built with <span className="text-green">Next.js + TypeScript</span> · Hacker Edition v2.0
+        Built with <span className="text-green">Next.js + TypeScript</span> · Hacker Edition v3.0
       </div>
       <div>{date}</div>
     </footer>

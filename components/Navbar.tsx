@@ -1,15 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useUptime } from '@/hooks/useUptime'
 import { NAV_LINKS } from '@/lib/data'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 export default function Navbar() {
   const { uptime, time } = useUptime()
   const [activeSection, setActiveSection] = useState('hero')
   const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
+    // Section tracking
     const sections = document.querySelectorAll('section[id]')
     const observer = new IntersectionObserver(
       (entries) => {
@@ -17,19 +26,49 @@ export default function Navbar() {
           if (entry.isIntersecting) setActiveSection(entry.target.id)
         })
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     )
     sections.forEach((s) => observer.observe(s))
-    return () => observer.disconnect()
+
+    // Hide/show navbar on scroll direction
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      if (!navRef.current) return
+
+      if (currentY > lastScrollY.current && currentY > 100) {
+        // Scrolling down
+        gsap.to(navRef.current, { y: -100, duration: 0.3, ease: 'power2.in' })
+      } else {
+        // Scrolling up
+        gsap.to(navRef.current, { y: 0, duration: 0.3, ease: 'power2.out' })
+      }
+      lastScrollY.current = currentY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
-  const handleLinkClick = () => setMenuOpen(false)
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault()
+    setMenuOpen(false)
+    const target = document.querySelector(href)
+    if (target) {
+      const y = target.getBoundingClientRect().top + window.scrollY - 80
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }
 
   return (
     <>
       <nav
+        ref={navRef}
         className="fixed top-0 left-0 right-0 z-[1000] flex justify-between items-center px-5 md:px-10 py-4 border-b border-green-dark"
-        style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)', willChange: 'transform' }}
       >
         {/* Logo */}
         <div
@@ -48,6 +87,7 @@ export default function Navbar() {
               <li key={href}>
                 <a
                   href={href}
+                  onClick={(e) => handleLinkClick(e, href)}
                   className={`font-mono text-xs tracking-widest uppercase transition-all duration-200 no-underline group relative ${
                     isActive ? 'text-green' : 'text-green-dim hover:text-green'
                   }`}
@@ -83,7 +123,7 @@ export default function Navbar() {
             className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8 p-1"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
-            style={{ cursor: 'none' }}
+
           >
             <span
               className={`block w-full h-px bg-green transition-all duration-300 origin-center ${
@@ -119,7 +159,7 @@ export default function Navbar() {
             <a
               key={href}
               href={href}
-              onClick={handleLinkClick}
+              onClick={(e) => handleLinkClick(e, href)}
               className={`font-vt text-5xl tracking-widest no-underline transition-all duration-200 ${
                 isActive ? 'text-green' : 'text-green-dim'
               }`}

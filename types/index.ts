@@ -9,7 +9,8 @@ export interface TermLine {
 // ─── Skills ──────────────────────────────────────────────────────────────────
 export interface Skill {
   name: string
-  pct: number
+  icon: string      // react-icons import key
+  desc: string      // short descriptor
 }
 
 export interface SkillCategory {
