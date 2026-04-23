@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   title: 'PRATIK.SYS | Full Stack Developer',
   description:
     'Pratik Kumbhar — Full Stack Developer specializing in React, NestJS, PostgreSQL, and AWS.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'PRATIK.SYS',
+  },
+  icons: {
+    apple: '/icons/icon-192x192.png',
+  },
+}
+
+export const viewport = {
+  themeColor: '#00ff41',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -21,6 +37,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;700;900&display=swap"
           rel="stylesheet"
         />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#00ff41" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="PRATIK.SYS" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
 
         {/* Google Analytics — only if ID is configured */}
         {GA_MEASUREMENT_ID && (

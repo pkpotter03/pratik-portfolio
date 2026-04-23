@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect width="256" height="256" fill="#000900"/>
+  <text
+    x="31"
+    y="172"
+    font-family="'Courier New', Courier, monospace"
+    font-size="108"
+    fill="#00ff41"
+    font-weight="bold"
+  >&gt;_</text>
+</svg>
